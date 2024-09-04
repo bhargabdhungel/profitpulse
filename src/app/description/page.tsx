@@ -162,11 +162,7 @@ export default function RewardPage() {
                 selectedSale.sale_amount
               ).toFixed(2)}
               % applies to the reward points, giving you an additional $
-              {(
-                (selectedSale.reward_points * 100) /
-                selectedSale.sale_amount /
-                100
-              ).toFixed(2)}{" "}
+              {selectedSale.reward_points}
               in value.
             </p>
           </motion.div>
