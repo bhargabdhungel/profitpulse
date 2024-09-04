@@ -13,8 +13,8 @@ export function getUserData(
   if (selectedOption && selectedOption?.value !== "all") {
     sales = sales.filter((sale) => sale.brand === selectedOption?.value);
   }
-  const totalSales = sales.reduce((acc, sale) => acc + sale.totalSales, 0);
-  const totalRewards = sales.reduce((acc, sale) => acc + sale.rewardPoints, 0);
+  const totalSales = sales.reduce((acc, sale) => acc + sale.sale_amount, 0);
+  const totalRewards = sales.reduce((acc, sale) => acc + sale.reward_points, 0);
 
   const user: User = {
     image: session.user_data.image,

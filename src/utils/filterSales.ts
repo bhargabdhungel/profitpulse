@@ -21,8 +21,8 @@ export function filterSales(
 
     const dateRangeMatch =
       dateRange?.from && dateRange?.to
-        ? new Date(sale.purchaseDate) >= dateRange.from &&
-          new Date(sale.purchaseDate) <= dateRange.to
+        ? new Date(sale.purchase_date) >= dateRange.from &&
+          new Date(sale.purchase_date) <= dateRange.to
         : true;
 
     return searchTermMatch && selectedOptionMatch && dateRangeMatch;
@@ -32,22 +32,22 @@ export function filterSales(
     return filteredSales.reduce((acc: Sale[], sale) => {
       const existingGroup = acc.find((group) => group.brand === sale.brand);
       if (existingGroup) {
-        existingGroup.totalSales += sale.totalSales;
-        existingGroup.rewardPoints += sale.rewardPoints;
+        existingGroup.sale_amount += sale.sale_amount;
+        existingGroup.reward_points += sale.reward_points;
         if (!existingGroup.startDate)
-          existingGroup.startDate = sale.purchaseDate;
-        if (!existingGroup.endDate) existingGroup.endDate = sale.purchaseDate;
-        if (new Date(existingGroup.startDate) > new Date(sale.purchaseDate))
-          existingGroup.startDate = sale.purchaseDate;
-        if (new Date(existingGroup.endDate) < new Date(sale.purchaseDate))
-          existingGroup.endDate = sale.purchaseDate;
+          existingGroup.startDate = sale.purchase_date;
+        if (!existingGroup.endDate) existingGroup.endDate = sale.purchase_date;
+        if (new Date(existingGroup.startDate) > new Date(sale.purchase_date))
+          existingGroup.startDate = sale.purchase_date;
+        if (new Date(existingGroup.endDate) < new Date(sale.purchase_date))
+          existingGroup.endDate = sale.purchase_date;
       } else {
         acc.push({
           ...sale,
-          totalSales: sale.totalSales,
-          rewardPoints: sale.rewardPoints,
-          startDate: sale.purchaseDate,
-          endDate: sale.purchaseDate,
+          sale_amount: sale.sale_amount,
+          reward_points: sale.reward_points,
+          startDate: sale.purchase_date,
+          endDate: sale.purchase_date,
         });
       }
       return acc;

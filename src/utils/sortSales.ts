@@ -7,13 +7,13 @@ export function sortSales(sales: Sale[], sortBy: SortBy, sortOrder: SortOrder) {
       case SortBy.DATE:
         return (
           modifier *
-          (new Date(b.purchaseDate).getTime() -
-            new Date(a.purchaseDate).getTime())
+          (new Date(b.purchase_date).getTime() -
+            new Date(a.purchase_date).getTime())
         );
       case SortBy.REWARDS:
-        return modifier * (b.rewardPoints - a.rewardPoints);
+        return modifier * (b.reward_points - a.reward_points);
       case SortBy.SALES:
-        return modifier * (b.totalSales - a.totalSales);
+        return modifier * (b.sale_amount - a.sale_amount);
       case SortBy.BRAND:
         return modifier * a.brand.localeCompare(b.brand);
       default:

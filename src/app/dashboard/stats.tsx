@@ -38,7 +38,7 @@ export function StatCards() {
         title="Total Sales"
         value={`$${userInfo.user.totalSales.toLocaleString()}`}
         icon={<TrendingUp className="h-4 w-4 text-green-400" />}
-        subtext="+20% from last month"
+        subtext="Total sales made by you"
         gradient="from-blue-600 to-blue-800"
       />
       <StatCard

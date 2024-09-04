@@ -13,6 +13,7 @@ import { motion, useSpring, useTransform } from "framer-motion";
 import { selectedSaleAtom } from "@/store";
 import { useRecoilValue } from "recoil";
 import { NoDataState } from "@/utils/components/NoData";
+import { useRouter } from "next/navigation";
 
 const AnimatedCounter = ({ value }: { value: number }) => {
   const springValue = useSpring(0, { duration: 2000 });
@@ -28,7 +29,9 @@ const AnimatedCounter = ({ value }: { value: number }) => {
 export default function RewardPage() {
   const [showDetails, setShowDetails] = useState(false);
   const selectedSale = useRecoilValue(selectedSaleAtom);
+  const router = useRouter();
   if (!selectedSale) {
+    router.push("/dashboard");
     return <NoDataState />;
   }
 
@@ -50,6 +53,7 @@ export default function RewardPage() {
         <Button
           variant="ghost"
           className="mb-6 transition-colors duration-300 hover:bg-purple-700"
+          onClick={() => router.back()}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back
@@ -90,19 +94,21 @@ export default function RewardPage() {
               <div className="flex items-center space-x-2 text-pink-300">
                 <Calendar className="h-4 w-4" />
                 <span>
-                  Purchased {calculateDaysAgo(selectedSale.purchaseDate)} days
+                  Purchased {calculateDaysAgo(selectedSale.purchase_date)} days
                   ago
                 </span>
               </div>
               <div className="flex items-center space-x-2 text-green-300">
                 <DollarSign className="h-4 w-4" />
-                <span>Amount: ₹{selectedSale.totalSales.toLocaleString()}</span>
+                <span>
+                  Amount: ${selectedSale.sale_amount.toLocaleString()}
+                </span>
               </div>
               <div className="flex items-center space-x-2 text-yellow-300">
                 <Award className="h-4 w-4" />
                 <span>
                   Reward Points:{" "}
-                  <AnimatedCounter value={selectedSale.rewardPoints} />
+                  <AnimatedCounter value={selectedSale.reward_points} />
                 </span>
               </div>
               <div className="flex items-center space-x-2 text-cyan-300">
@@ -110,8 +116,8 @@ export default function RewardPage() {
                 <span>
                   Commission:{" "}
                   {(
-                    (selectedSale.rewardPoints * 100) /
-                    selectedSale.totalSales
+                    (selectedSale.reward_points * 100) /
+                    selectedSale.sale_amount
                   ).toFixed(2)}
                   %
                 </span>
@@ -145,20 +151,20 @@ export default function RewardPage() {
               Reward Details
             </h3>
             <p className="text-gray-300">
-              You&apos;ve earned {selectedSale.rewardPoints} points on your
-              purchase of {selectedSale.totalSales}. These points can be
+              You&apos;ve earned {selectedSale.reward_points} points on your
+              purchase of {selectedSale.sale_amount}. These points can be
               redeemed for exciting offers and discounts on future purchases.
             </p>
             <p className="mt-2 text-gray-300">
               The commission rate of{" "}
               {(
-                (selectedSale.rewardPoints * 100) /
-                selectedSale.totalSales
+                (selectedSale.reward_points * 100) /
+                selectedSale.sale_amount
               ).toFixed(2)}
-              % applies to the reward points, giving you an additional ₹
+              % applies to the reward points, giving you an additional $
               {(
-                (selectedSale.rewardPoints * 100) /
-                selectedSale.totalSales /
+                (selectedSale.reward_points * 100) /
+                selectedSale.sale_amount /
                 100
               ).toFixed(2)}{" "}
               in value.

@@ -1,9 +1,9 @@
 export interface Sale {
   id: number;
   brand: string;
-  totalSales: number;
-  purchaseDate: string;
-  rewardPoints: number;
+  sale_amount: number;
+  purchase_date: string;
+  reward_points: number;
   startDate?: string;
   endDate?: string;
 }

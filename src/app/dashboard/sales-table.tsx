@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -23,14 +24,13 @@ import CustomSwitch from "../_components/switch";
 import {
   filteredAndSortedSalesAtom,
   groupByBrandAtom,
-  salesAtom,
   searchTermAtom,
   selectedSaleAtom,
   sortByAtom,
   sortOrderAtom,
 } from "@/store";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 function SearchInput() {
   const [searchTerm, setSearchTerm] = useRecoilState(searchTermAtom);
@@ -138,24 +138,24 @@ function TableBody({
           className="cursor-pointer transition-colors duration-200 hover:bg-gray-700"
           onClick={async () => {
             setSelectedSale(sale);
-            await router.push(`/description`);
+            router.push(`/description`);
           }}
         >
           <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-blue-300">
             {sale.brand}
           </td>
           <td className="whitespace-nowrap px-6 py-4 text-sm text-green-400">
-            ${sale.totalSales.toLocaleString()}
+            ${sale.sale_amount.toLocaleString()}
           </td>
           <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
             {groupByBrand
               ? new Date(sale.startDate!).toLocaleDateString() +
                 " - " +
                 new Date(sale.endDate!).toLocaleDateString()
-              : new Date(sale.purchaseDate).toLocaleDateString()}
+              : new Date(sale.purchase_date).toLocaleDateString()}
           </td>
           <td className="whitespace-nowrap px-6 py-4 text-sm text-yellow-400">
-            {sale.rewardPoints}
+            {sale.reward_points}
           </td>
         </tr>
       ))}
@@ -256,12 +256,11 @@ function Pagination({
 export function SalesTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const sales = useRecoilValue(salesAtom);
+  const sales = useRecoilValue(filteredAndSortedSalesAtom);
   const totalPages = Math.ceil(sales.length / itemsPerPage);
   const handlePageChange = (page: number) => setCurrentPage(page);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-
   return (
     <Card className="overflow-hidden border-none bg-gray-800 shadow-xl">
       <CardHeader className="border-b border-gray-700">
