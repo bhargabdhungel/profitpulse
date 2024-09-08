@@ -6,8 +6,8 @@
 - npm 10+
 
 ## Setup
-
-- `git clone https://github.com/bhargabdhungel/profitpulse.git`
+- fork the repo
+- `git clone https://github.com/user_name/profitpulse.git`
 - `cd profitpulse`
 - check the `.env.example` file and create a new file called `.env`
 - fill in the required variables in the `.env` file ( postgres database string )
